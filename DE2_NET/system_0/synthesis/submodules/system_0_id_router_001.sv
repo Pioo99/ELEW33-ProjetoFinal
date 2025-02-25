@@ -49,21 +49,21 @@ module system_0_id_router_001_default_decode
                DEFAULT_RD_CHANNEL = -1,
                DEFAULT_DESTID = 1 
    )
-  (output [73 - 69 : 0] default_destination_id,
-   output [24-1 : 0] default_wr_channel,
-   output [24-1 : 0] default_rd_channel,
-   output [24-1 : 0] default_src_channel
+  (output [77 - 73 : 0] default_destination_id,
+   output [25-1 : 0] default_wr_channel,
+   output [25-1 : 0] default_rd_channel,
+   output [25-1 : 0] default_src_channel
   );
 
   assign default_destination_id = 
-    DEFAULT_DESTID[73 - 69 : 0];
+    DEFAULT_DESTID[77 - 73 : 0];
 
   generate begin : default_decode
     if (DEFAULT_CHANNEL == -1) begin
       assign default_src_channel = '0;
     end
     else begin
-      assign default_src_channel = 24'b1 << DEFAULT_CHANNEL;
+      assign default_src_channel = 25'b1 << DEFAULT_CHANNEL;
     end
   end
   endgenerate
@@ -74,8 +74,8 @@ module system_0_id_router_001_default_decode
       assign default_rd_channel = '0;
     end
     else begin
-      assign default_wr_channel = 24'b1 << DEFAULT_WR_CHANNEL;
-      assign default_rd_channel = 24'b1 << DEFAULT_RD_CHANNEL;
+      assign default_wr_channel = 25'b1 << DEFAULT_WR_CHANNEL;
+      assign default_rd_channel = 25'b1 << DEFAULT_RD_CHANNEL;
     end
   end
   endgenerate
@@ -95,7 +95,7 @@ module system_0_id_router_001
     // Command Sink (Input)
     // -------------------
     input                       sink_valid,
-    input  [84-1 : 0]    sink_data,
+    input  [88-1 : 0]    sink_data,
     input                       sink_startofpacket,
     input                       sink_endofpacket,
     output                      sink_ready,
@@ -104,8 +104,8 @@ module system_0_id_router_001
     // Command Source (Output)
     // -------------------
     output                          src_valid,
-    output reg [84-1    : 0] src_data,
-    output reg [24-1 : 0] src_channel,
+    output reg [88-1    : 0] src_data,
+    output reg [25-1 : 0] src_channel,
     output                          src_startofpacket,
     output                          src_endofpacket,
     input                           src_ready
@@ -114,18 +114,18 @@ module system_0_id_router_001
     // -------------------------------------------------------
     // Local parameters and variables
     // -------------------------------------------------------
-    localparam PKT_ADDR_H = 42;
+    localparam PKT_ADDR_H = 46;
     localparam PKT_ADDR_L = 18;
-    localparam PKT_DEST_ID_H = 73;
-    localparam PKT_DEST_ID_L = 69;
-    localparam PKT_PROTECTION_H = 77;
-    localparam PKT_PROTECTION_L = 75;
-    localparam ST_DATA_W = 84;
-    localparam ST_CHANNEL_W = 24;
+    localparam PKT_DEST_ID_H = 77;
+    localparam PKT_DEST_ID_L = 73;
+    localparam PKT_PROTECTION_H = 81;
+    localparam PKT_PROTECTION_L = 79;
+    localparam ST_DATA_W = 88;
+    localparam ST_CHANNEL_W = 25;
     localparam DECODER_TYPE = 1;
 
-    localparam PKT_TRANS_WRITE = 45;
-    localparam PKT_TRANS_READ  = 46;
+    localparam PKT_TRANS_WRITE = 49;
+    localparam PKT_TRANS_READ  = 50;
 
     localparam PKT_ADDR_W = PKT_ADDR_H-PKT_ADDR_L + 1;
     localparam PKT_DEST_ID_W = PKT_DEST_ID_H-PKT_DEST_ID_L + 1;
@@ -161,7 +161,7 @@ module system_0_id_router_001
     assign src_endofpacket   = sink_endofpacket;
 
     wire [PKT_DEST_ID_W-1:0] default_destid;
-    wire [24-1 : 0] default_src_channel;
+    wire [25-1 : 0] default_src_channel;
 
 
 
@@ -187,11 +187,11 @@ module system_0_id_router_001
 
 
         if (destid == 1 ) begin
-            src_channel = 24'b01;
+            src_channel = 25'b01;
         end
 
         if (destid == 0 ) begin
-            src_channel = 24'b10;
+            src_channel = 25'b10;
         end
 
 

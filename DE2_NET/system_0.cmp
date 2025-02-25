@@ -74,7 +74,14 @@
 			lcd_controller_0_rs_export        : out   std_logic;                                        -- export
 			lcd_controller_0_rw_export        : out   std_logic;                                        -- export
 			lcd_controller_0_en_export        : out   std_logic;                                        -- export
-			lcd_controller_0_lcd_data_export  : out   std_logic_vector(7 downto 0)                      -- export
+			lcd_controller_0_lcd_data_export  : out   std_logic_vector(7 downto 0);                     -- export
+			avalon_mm_0_s0_address            : out   std_logic_vector(2 downto 0);                     -- address
+			avalon_mm_0_s0_read               : out   std_logic;                                        -- read
+			avalon_mm_0_s0_readdata           : in    std_logic_vector(15 downto 0) := (others => 'X'); -- readdata
+			avalon_mm_0_s0_writedata          : out   std_logic_vector(15 downto 0);                    -- writedata
+			avalon_mm_0_s0_waitrequest        : in    std_logic                     := 'X';             -- waitrequest
+			avalon_mm_0_s0_write              : out   std_logic;                                        -- write
+			avalon_mm_0_reset_reset           : out   std_logic                                         -- reset
 		);
 	end component system_0;
 

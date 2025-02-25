@@ -30,9 +30,9 @@
 //   ARBITRATION_SHARES:  1 1 1 1 1
 //   ARBITRATION_SCHEME   "no-arb"
 //   PIPELINE_ARB:        0
-//   PKT_TRANS_LOCK:      65 (arbitration locking enabled)
-//   ST_DATA_W:           102
-//   ST_CHANNEL_W:        24
+//   PKT_TRANS_LOCK:      69 (arbitration locking enabled)
+//   ST_DATA_W:           106
+//   ST_CHANNEL_W:        25
 // ------------------------------------------
 
 module system_0_rsp_xbar_mux
@@ -41,36 +41,36 @@ module system_0_rsp_xbar_mux
     // Sinks
     // ----------------------
     input                       sink0_valid,
-    input [102-1   : 0]  sink0_data,
-    input [24-1: 0]  sink0_channel,
+    input [106-1   : 0]  sink0_data,
+    input [25-1: 0]  sink0_channel,
     input                       sink0_startofpacket,
     input                       sink0_endofpacket,
     output                      sink0_ready,
 
     input                       sink1_valid,
-    input [102-1   : 0]  sink1_data,
-    input [24-1: 0]  sink1_channel,
+    input [106-1   : 0]  sink1_data,
+    input [25-1: 0]  sink1_channel,
     input                       sink1_startofpacket,
     input                       sink1_endofpacket,
     output                      sink1_ready,
 
     input                       sink2_valid,
-    input [102-1   : 0]  sink2_data,
-    input [24-1: 0]  sink2_channel,
+    input [106-1   : 0]  sink2_data,
+    input [25-1: 0]  sink2_channel,
     input                       sink2_startofpacket,
     input                       sink2_endofpacket,
     output                      sink2_ready,
 
     input                       sink3_valid,
-    input [102-1   : 0]  sink3_data,
-    input [24-1: 0]  sink3_channel,
+    input [106-1   : 0]  sink3_data,
+    input [25-1: 0]  sink3_channel,
     input                       sink3_startofpacket,
     input                       sink3_endofpacket,
     output                      sink3_ready,
 
     input                       sink4_valid,
-    input [102-1   : 0]  sink4_data,
-    input [24-1: 0]  sink4_channel,
+    input [106-1   : 0]  sink4_data,
+    input [25-1: 0]  sink4_channel,
     input                       sink4_startofpacket,
     input                       sink4_endofpacket,
     output                      sink4_ready,
@@ -80,8 +80,8 @@ module system_0_rsp_xbar_mux
     // Source
     // ----------------------
     output                      src_valid,
-    output [102-1    : 0] src_data,
-    output [24-1 : 0] src_channel,
+    output [106-1    : 0] src_data,
+    output [25-1 : 0] src_channel,
     output                      src_startofpacket,
     output                      src_endofpacket,
     input                       src_ready,
@@ -92,13 +92,13 @@ module system_0_rsp_xbar_mux
     input clk,
     input reset
 );
-    localparam PAYLOAD_W        = 102 + 24 + 2;
+    localparam PAYLOAD_W        = 106 + 25 + 2;
     localparam NUM_INPUTS       = 5;
     localparam SHARE_COUNTER_W  = 1;
     localparam PIPELINE_ARB     = 0;
-    localparam ST_DATA_W        = 102;
-    localparam ST_CHANNEL_W     = 24;
-    localparam PKT_TRANS_LOCK   = 65;
+    localparam ST_DATA_W        = 106;
+    localparam ST_CHANNEL_W     = 25;
+    localparam PKT_TRANS_LOCK   = 69;
 
     // ------------------------------------------
     // Signals
@@ -133,11 +133,11 @@ module system_0_rsp_xbar_mux
     // ------------------------------------------
     reg [NUM_INPUTS - 1 : 0] lock;
     always @* begin
-      lock[0] = sink0_data[65];
-      lock[1] = sink1_data[65];
-      lock[2] = sink2_data[65];
-      lock[3] = sink3_data[65];
-      lock[4] = sink4_data[65];
+      lock[0] = sink0_data[69];
+      lock[1] = sink1_data[69];
+      lock[2] = sink2_data[69];
+      lock[3] = sink3_data[69];
+      lock[4] = sink4_data[69];
     end
 
     assign last_cycle = src_valid & src_ready & src_endofpacket & ~(|(lock & grant));
