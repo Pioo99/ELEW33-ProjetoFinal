@@ -57,6 +57,23 @@ OS_STK    SSSInitialTaskStk[TASK_STACKSIZE];
  * TK_ENTRY macro corresponds to the entry point, or defined function name, of the task.
  * inet_taskinfo is the structure used by TK_NEWTASK to create the task.
  */
+
+#define IMAGE_MAX_SIZE 1024 * 1024  // Tamanho máximo da imagem (1MB)
+#define PORT 5000
+#define SERVER_IP "192.168.18.4"
+#define BUFFER_SIZE 4096  // Buffer para recepção de dados
+
+// Endereço base do componente VHDL na FPGA
+#define FPGA_BASE_ADDR 0x00000000
+#define PIXEL_IN_REG 0x00          // Registrador para envio de pixels
+#define ADDR_REG 0x04              // Registrador para selecionar nível de cinza do histograma
+#define HISTOGRAM_OUT_REG 0x08     // Registrador para ler contagem do histograma
+
+// Tamanho do histograma (256 níveis de cinza)
+#define HISTOGRAM_SIZE 256
+
+void *fpga_base;
+
 TK_OBJECT(to_ssstask);
 TK_ENTRY(SSSSimpleSocketServerTask);
 
@@ -68,82 +85,172 @@ struct inet_taskinfo ssstask = {
       APP_STACK_SIZE,
 };
 
+void send_image_to_fpga(unsigned char *image_data, int image_size) {
+    printf("Enviando imagem para a FPGA...\n");
+
+    int i = 0;
+    while(i < image_size) {
+        IOWR(FPGA_BASE_ADDR, PIXEL_IN_REG, image_data[i]);  // Enviar cada pixel para o registrador da FPGA
+        i++;
+    }
+
+    printf("Todos os pixels foram enviados para a FPGA.\n");
+}
+
+void read_histogram_from_fpga(int *histogram) {
+    printf("Lendo histograma gerado pela FPGA...\n");
+
+    int i = 0;
+    while (i < HISTOGRAM_SIZE) {
+        IOWR(FPGA_BASE_ADDR, ADDR_REG, i);  // Selecionar o nível de cinza desejado
+        histogram[i] = IORD(FPGA_BASE_ADDR, HISTOGRAM_OUT_REG);  // Ler o contador desse nível de cinza
+        i++;
+    }
+
+    printf("Histograma lido com sucesso!\n");
+}
+
+void send_histogram_to_server(int socket, int *histogram) {
+    printf("Enviando histograma para o servidor...\n");
+
+    int histogram_network_order[HISTOGRAM_SIZE];
+
+    int i = 0;
+    // Converter para big-endian para compatibilidade entre diferentes arquiteturas
+    while(i < HISTOGRAM_SIZE) {
+        histogram_network_order[i] = htonl(histogram[i]);
+        i++;
+    }
+
+    // Enviar o histograma para o servidor
+    if (send(socket, histogram_network_order, sizeof(histogram_network_order), 0) == -1) {
+        perror("Erro ao enviar histograma para o servidor");
+    } else {
+        printf("Histograma enviado com sucesso!\n");
+    }
+}
+
 /* SSSInitialTask will initialize the NicheStack
  * TCP/IP Stack and then initialize the rest of the Simple Socket Server example 
  * RTOS structures and tasks. 
  */
-void SSSInitialTask(void *task_data)
-{
-  INT8U error_code;
-  
-  /*
-   * Initialize Altera NicheStack TCP/IP Stack - Nios II Edition specific code.
-   * NicheStack is initialized from a task, so that RTOS will have started, and 
-   * I/O drivers are available.  Two tasks are created:
-   *    "Inet main"  task with priority 2
-   *    "clock tick" task with priority 3
-   */   
-  alt_iniche_init();
-  netmain(); 
+void SSSInitialTask(void *task_data) {
+	  /*
+	   * Initialize Altera NicheStack TCP/IP Stack - Nios II Edition specific code.
+	   * NicheStack is initialized from a task, so that RTOS will have started, and
+	   * I/O drivers are available.  Two tasks are created:
+	   *    "Inet main"  task with priority 2
+	   *    "clock tick" task with priority 3
+	   */
+	  alt_iniche_init();
+	  netmain();
 
-  /* Wait for the network stack to be ready before proceeding. 
-   * iniche_net_ready indicates that TCP/IP stack is ready, and IP address is obtained.
-   */
-  while (!iniche_net_ready)
-    TK_SLEEP(1);
+	  /* Wait for the network stack to be ready before proceeding.
+	   * iniche_net_ready indicates that TCP/IP stack is ready, and IP address is obtained.
+	   */
+	  while (!iniche_net_ready)
+	    TK_SLEEP(1);
 
-  /* Now that the stack is running, perform the application initialization steps */
-  
-  /* Application Specific Task Launching Code Block Begin */
+	  /* Now that the stack is running, perform the application initialization steps */
 
-  printf("\nSimple Socket Server starting up\n");
+	  /* Application Specific Task Launching Code Block Begin */
 
-  /* Create the main simple socket server task. */
-  //TK_NEWTASK(&ssstask);
-  
-  /*create os data structures */
-  //SSSCreateOSDataStructs();
+	  printf("\nSimple Socket Server starting up\n");
 
-  /* create the other tasks */
-  //SSSCreateTasks();
+	  /* Create the main simple socket server task. */
+	  //TK_NEWTASK(&ssstask);
 
-  /* Application Specific Task Launching Code Block End */
-  
-  /*This task is deleted because there is no need for it to run again */
-  //error_code = OSTaskDel(OS_PRIO_SELF);
-  //alt_uCOSIIErrorHandler(error_code, 0);
+	  /*create os data structures */
+	  //SSSCreateOSDataStructs();
 
-  struct sockaddr_in sa;
-  int res;
-  int SocketFD;
-  char buf[1024];
+	  /* create the other tasks */
+	  //SSSCreateTasks();
 
-  lcdInit();
+	  /* Application Specific Task Launching Code Block End */
 
-  SocketFD = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
-  printf("Socket criado\n");
+	  /*This task is deleted because there is no need for it to run again */
+	  //error_code = OSTaskDel(OS_PRIO_SELF);
+	  //alt_uCOSIIErrorHandler(error_code, 0);
 
-  memset(&sa, 0, sizeof sa);
-  sa.sin_family = AF_INET;
-  sa.sin_port = htons(5000); // ALTERAR PORTA A SER UTILIZADA AQUI
-  res = inet_pton(AF_INET, "192.168.0.221", &sa.sin_addr);
 
-  if (connect(SocketFD, (struct sockaddr *)&sa, sizeof sa) == -1) {
-	perror("connect failed");
-	close(SocketFD);
-	exit(EXIT_FAILURE);
-  }
-  printf("Conectado com sucesso\n");
-  while (1){
-	    if (recv(SocketFD, buf, sizeof(buf), 0) < 0) //exemplo de recebimento
-	    {
-	        perror("Recv()");
-	        exit(EXIT_FAILURE);
-	    }else{
-	    	printf("Msg recebida: %s\n", buf);
-	    	updateValue(atoi(buf));
-	    }
-  }
+    struct sockaddr_in sa;
+    int SocketFD, res;
+    unsigned char *image_data;
+    int image_size, received;
+    int histogram[HISTOGRAM_SIZE] = {0};
+
+    printf("Iniciando o Cliente Socket\n");
+
+    SocketFD = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
+    if (SocketFD < 0) {
+        perror("Erro ao criar socket");
+        exit(EXIT_FAILURE);
+    }
+    printf("Socket criado\n");
+
+    memset(&sa, 0, sizeof(sa));
+    sa.sin_family = AF_INET;
+    sa.sin_port = htons(PORT);
+    res = inet_pton(AF_INET, "192.168.18.4", &sa.sin_addr);
+
+    if (connect(SocketFD, (struct sockaddr *)&sa, sizeof(sa)) == -1) {
+        perror("Erro ao conectar ao servidor");
+        close(SocketFD);
+        exit(EXIT_FAILURE);
+    }
+    printf("Conectado ao servidor!\n");
+
+    while (1) {
+        printf("\nAguardando nova imagem...\n");
+
+        // Receber o tamanho da imagem
+        if (recv(SocketFD, &image_size, sizeof(image_size), 0) <= 0) {
+            perror("Erro ao receber o tamanho da imagem");
+            break;
+        }
+        image_size = ntohl(image_size);
+        printf("Tamanho da imagem recebido: %d bytes\n", image_size);
+
+        // Alocar memória para armazenar a imagem
+        image_data = (unsigned char *)malloc(image_size);
+        if (!image_data) {
+            perror("Falha ao alocar memória para a imagem");
+            break;
+        }
+
+        // Receber a imagem em blocos
+        received = 0;
+        while (received < image_size) {
+            int bytes = recv(SocketFD, image_data + received, BUFFER_SIZE, 0);
+            if (bytes <= 0) {
+                perror("Erro ao receber a imagem");
+                free(image_data);
+                break;
+            }
+            received += bytes;
+        }
+        printf("Imagem recebida com sucesso!\n");
+
+        // Enviar os pixels da imagem para a FPGA
+        send_image_to_fpga(image_data, image_size);
+
+        // Ler o histograma gerado pela FPGA
+        read_histogram_from_fpga(histogram);
+
+        // Enviar o histograma de volta ao servidor
+        send_histogram_to_server(SocketFD, histogram);
+
+        // Liberar memória da imagem processada
+        free(image_data);
+
+        // Pausa antes de processar a próxima imagem
+        printf("\nAguardando 5 segundos antes de processar a próxima imagem...\n");
+        // sleep(5);
+    }
+
+    // Fechar a conexão apenas se houver erro ou finalização manual
+    close(SocketFD);
+    printf("Conexão encerrada.\n");
 }
 
 /* Main creates a single task, SSSInitialTask, and starts task scheduler.

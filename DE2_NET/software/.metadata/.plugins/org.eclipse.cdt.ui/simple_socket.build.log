@@ -2,53 +2,25 @@
 **** Build of configuration Nios II for project simple_socket ****
 
 make all 
-      1 [main] sh 3288 find_fast_cwd: WARNING: Couldn't compute FAST_CWD pointer.  Please report this problem to
+      1 [main] sh 10740 find_fast_cwd: WARNING: Couldn't compute FAST_CWD pointer.  Please report this problem to
 the public mailing list cygwin@cygwin.com
-      1 [main] sh 5040 find_fast_cwd: WARNING: Couldn't compute FAST_CWD pointer.  Please report this problem to
+      1 [main] sh 6684 find_fast_cwd: WARNING: Couldn't compute FAST_CWD pointer.  Please report this problem to
 the public mailing list cygwin@cygwin.com
-      1 [main] echo 26644 find_fast_cwd: WARNING: Couldn't compute FAST_CWD pointer.  Please report this problem to
+      1 [main] echo 12492 find_fast_cwd: WARNING: Couldn't compute FAST_CWD pointer.  Please report this problem to
 the public mailing list cygwin@cygwin.com
 Info: Building ../simple_socket_bsp/
 make --no-print-directory -C ../simple_socket_bsp/
-      1 [main] pwd 34028 find_fast_cwd: WARNING: Couldn't compute FAST_CWD pointer.  Please report this problem to
+      1 [main] pwd 19216 find_fast_cwd: WARNING: Couldn't compute FAST_CWD pointer.  Please report this problem to
 the public mailing list cygwin@cygwin.com
-      1 [main] sh 11800 find_fast_cwd: WARNING: Couldn't compute FAST_CWD pointer.  Please report this problem to
+      1 [main] sh 10600 find_fast_cwd: WARNING: Couldn't compute FAST_CWD pointer.  Please report this problem to
 the public mailing list cygwin@cygwin.com
 makefile:749: Warning: SOPC File A:/UTFPR/Logica/TrabalhoFinalMesmo/DE2_NET/system_0.sopcinfo could not be found.
-      1 [main] sh 38524 find_fast_cwd: WARNING: Couldn't compute FAST_CWD pointer.  Please report this problem to
+      1 [main] sh 8876 find_fast_cwd: WARNING: Couldn't compute FAST_CWD pointer.  Please report this problem to
 the public mailing list cygwin@cygwin.com
 [BSP build complete]
-      1 [main] echo 18272 find_fast_cwd: WARNING: Couldn't compute FAST_CWD pointer.  Please report this problem to
+      1 [main] true 6024 find_fast_cwd: WARNING: Couldn't compute FAST_CWD pointer.  Please report this problem to
 the public mailing list cygwin@cygwin.com
-Info: Compiling iniche_init.c to obj/default/iniche_init.o
-      1 [main] mkdir 26948 find_fast_cwd: WARNING: Couldn't compute FAST_CWD pointer.  Please report this problem to
-the public mailing list cygwin@cygwin.com
-nios2-elf-gcc -xc -MP -MMD -c -I../simple_socket_bsp//iniche/inc -I../simple_socket_bsp//iniche/src/h -I../simple_socket_bsp//iniche/src/h/nios2 -I../simple_socket_bsp//iniche/src/nios2 -I../simple_socket_bsp//UCOSII/inc -I../simple_socket_bsp//HAL/inc -I../simple_socket_bsp/ -I../simple_socket_bsp//drivers/inc  -DSYSTEM_BUS_WIDTH=32 -pipe -D__hal__ -DALT_NO_INSTRUCTION_EMULATION -DALT_INICHE -D__ucosii__    -O0 -g -Wall   -EL -mno-hw-div -mhw-mul -mno-hw-mulx  -o obj/default/iniche_init.o iniche_init.c
-iniche_init.c: In function 'SSSInitialTask':
-iniche_init.c:129: warning: implicit declaration of function 'inet_pton'
-iniche_init.c:77: warning: unused variable 'error_code'
-      1 [main] true 41200 find_fast_cwd: WARNING: Couldn't compute FAST_CWD pointer.  Please report this problem to
-the public mailing list cygwin@cygwin.com
-      1 [main] echo 37984 find_fast_cwd: WARNING: Couldn't compute FAST_CWD pointer.  Please report this problem to
-the public mailing list cygwin@cygwin.com
-Info: Linking simple_socket.elf
-nios2-elf-g++  -T'../simple_socket_bsp//linker.x' -msys-crt0='../simple_socket_bsp//obj/HAL/src/crt0.o' -msys-lib=ucosii_bsp -L../simple_socket_bsp/   -Wl,-Map=simple_socket.map   -O0 -g -Wall   -EL -mno-hw-div -mhw-mul -mno-hw-mulx  -o simple_socket.elf obj/default/LCD.o obj/default/SSS_DE2_115.o obj/default/alt_error_handler.o obj/default/dm9000a.o obj/default/iniche_init.o obj/default/led.o obj/default/network_utilities.o obj/default/simple_socket_server.o obj/default/tse_my_system.o -lm 
-nios2-elf-insert simple_socket.elf --thread_model ucosii --cpu_name cpu_0 --qsys true --simulation_enabled false --id 0 --sidp 0x1a820e0 --timestamp 1604445448 --stderr_dev jtag_uart_0 --stdin_dev jtag_uart_0 --stdout_dev jtag_uart_0 --sopc_system_name system_0 --quartus_project_dir "C:/altera/ProjetoFinal/DE2_NET"
-      0 [main] sh 17000 find_fast_cwd: WARNING: Couldn't compute FAST_CWD pointer.  Please report this problem to
-the public mailing list cygwin@cygwin.com
-      1 [main] uname 27484 find_fast_cwd: WARNING: Couldn't compute FAST_CWD pointer.  Please report this problem to
-the public mailing list cygwin@cygwin.com
-      1 [main] sh 19808 find_fast_cwd: WARNING: Couldn't compute FAST_CWD pointer.  Please report this problem to
-the public mailing list cygwin@cygwin.com
-Info: (simple_socket.elf) 332 KBytes program size (code + initialized data).
-Info:                     7859 KBytes free for stack + heap.
-      0 [main] echo 4036 find_fast_cwd: WARNING: Couldn't compute FAST_CWD pointer.  Please report this problem to
-Info: Creating simple_socket.objdump
-the public mailing list cygwin@cygwin.com
-nios2-elf-objdump --disassemble --syms --all-header --source simple_socket.elf >simple_socket.objdump
-      1 [main] sh 1524 find_fast_cwd: WARNING: Couldn't compute FAST_CWD pointer.  Please report this problem to
-the public mailing list cygwin@cygwin.com
-      1 [main] sh 38340 find_fast_cwd: WARNING: Couldn't compute FAST_CWD pointer.  Please report this problem to
+      1 [main] sh 4548 find_fast_cwd: WARNING: Couldn't compute FAST_CWD pointer.  Please report this problem to
 the public mailing list cygwin@cygwin.com
 [simple_socket build complete]
 

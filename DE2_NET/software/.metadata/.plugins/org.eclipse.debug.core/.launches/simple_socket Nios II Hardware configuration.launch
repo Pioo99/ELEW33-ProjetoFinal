@@ -7,7 +7,7 @@
 <stringAttribute key="byteStreamDeviceInstanceID" value="0"/>
 <stringAttribute key="com.altera.sbtgui.launch.REMOTE_PORT" value="63664"/>
 <booleanAttribute key="downloadProgram" value="true"/>
-<stringAttribute key="elfFile" value="C:\altera\ProjetoFinal\DE2_NET\software\simple_socket\simple_socket.elf"/>
+<stringAttribute key="elfFile" value="C:\Users\diniz\Documents\ELEW33-ProjetoFinal\DE2_NET\software\simple_socket\simple_socket.elf"/>
 <stringAttribute key="org.eclipse.cdt.debug.mi.core.commandFactory" value="com.altera.debug.cdi.gdb.plugin.Nios2GDBServerGcc4CommandFactory"/>
 <stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_ID" value="com.altera.debug.cdi.gdb.plugin.Nios2GdbCdiDebugger"/>
 <stringAttribute key="org.eclipse.cdt.launch.DEBUGGER_REGISTER_GROUPS" value=""/>
