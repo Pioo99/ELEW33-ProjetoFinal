@@ -92,30 +92,6 @@
          type = "int";
       }
    }
-   element SEG7_Display.avalon_slave_0
-   {
-      datum baseAddress
-      {
-         value = "27795732";
-         type = "String";
-      }
-   }
-   element DM9000A.avalon_slave_0
-   {
-      datum baseAddress
-      {
-         value = "27795688";
-         type = "String";
-      }
-   }
-   element lcd_controller_0.avalon_slave_0
-   {
-      datum baseAddress
-      {
-         value = "27795728";
-         type = "String";
-      }
-   }
    element Audio_0.avalon_slave_0
    {
       datum baseAddress
@@ -132,11 +108,35 @@
          type = "String";
       }
    }
+   element SEG7_Display.avalon_slave_0
+   {
+      datum baseAddress
+      {
+         value = "27795732";
+         type = "String";
+      }
+   }
    element VGA_0.avalon_slave_0
    {
       datum baseAddress
       {
          value = "25165824";
+         type = "String";
+      }
+   }
+   element DM9000A.avalon_slave_0
+   {
+      datum baseAddress
+      {
+         value = "27795688";
+         type = "String";
+      }
+   }
+   element lcd_controller_0.avalon_slave_0
+   {
+      datum baseAddress
+      {
+         value = "27795728";
          type = "String";
       }
    }
@@ -268,19 +268,11 @@
          type = "int";
       }
    }
-   element avalon_mm_0.s0
+   element timer_1.s1
    {
       datum baseAddress
       {
-         value = "27795552";
-         type = "String";
-      }
-   }
-   element button_pio.s1
-   {
-      datum baseAddress
-      {
-         value = "27795632";
+         value = "27795456";
          type = "String";
       }
    }
@@ -292,11 +284,59 @@
          type = "String";
       }
    }
+   element uart_0.s1
+   {
+      datum baseAddress
+      {
+         value = "27795520";
+         type = "String";
+      }
+   }
+   element button_pio.s1
+   {
+      datum baseAddress
+      {
+         value = "27795632";
+         type = "String";
+      }
+   }
+   element switch_pio.s1
+   {
+      datum baseAddress
+      {
+         value = "27795616";
+         type = "String";
+      }
+   }
    element timer_0.s1
    {
       datum baseAddress
       {
          value = "27795488";
+         type = "String";
+      }
+   }
+   element led_red.s1
+   {
+      datum baseAddress
+      {
+         value = "27795664";
+         type = "String";
+      }
+   }
+   element led_green.s1
+   {
+      datum baseAddress
+      {
+         value = "27795648";
+         type = "String";
+      }
+   }
+   element SD_DAT.s1
+   {
+      datum baseAddress
+      {
+         value = "27795600";
          type = "String";
       }
    }
@@ -313,54 +353,6 @@
       datum baseAddress
       {
          value = "27795584";
-         type = "String";
-      }
-   }
-   element uart_0.s1
-   {
-      datum baseAddress
-      {
-         value = "27795520";
-         type = "String";
-      }
-   }
-   element SD_DAT.s1
-   {
-      datum baseAddress
-      {
-         value = "27795600";
-         type = "String";
-      }
-   }
-   element led_green.s1
-   {
-      datum baseAddress
-      {
-         value = "27795648";
-         type = "String";
-      }
-   }
-   element switch_pio.s1
-   {
-      datum baseAddress
-      {
-         value = "27795616";
-         type = "String";
-      }
-   }
-   element timer_1.s1
-   {
-      datum baseAddress
-      {
-         value = "27795456";
-         type = "String";
-      }
-   }
-   element led_red.s1
-   {
-      datum baseAddress
-      {
-         value = "27795664";
          type = "String";
       }
    }
@@ -459,7 +451,7 @@
  <parameter name="projectName" value="DE2_NET.qpf" />
  <parameter name="sopcBorderPoints" value="false" />
  <parameter name="systemHash" value="1" />
- <parameter name="timeStamp" value="1740510875863" />
+ <parameter name="timeStamp" value="1740538006376" />
  <parameter name="useTestBenchNamingPattern" value="false" />
  <instanceScript></instanceScript>
  <interface name="clk_50_clk_in" internal="clk_50.clk_in" type="clock" dir="end">
@@ -616,16 +608,8 @@
    internal="lcd_controller_0.lcd_data"
    type="conduit"
    dir="end" />
- <interface
-   name="avalon_mm_0_s0"
-   internal="avalon_mm_0.s01"
-   type="conduit"
-   dir="end" />
- <interface
-   name="avalon_mm_0_reset"
-   internal="avalon_mm_0.reset1"
-   type="conduit"
-   dir="end" />
+ <interface name="avalon_mm_0_s0" internal="avalon_mm_0.s01" />
+ <interface name="avalon_mm_0_reset" internal="avalon_mm_0.reset1" />
  <module kind="clock_source" version="13.0" enabled="1" name="clk_50">
   <parameter name="clockFrequency" value="50000000" />
   <parameter name="clockFrequencyKnown" value="true" />
@@ -962,7 +946,7 @@
   <parameter name="mmu_ramBlockType" value="Automatic" />
   <parameter name="bht_ramBlockType" value="Automatic" />
   <parameter name="instAddrWidth" value="25" />
-  <parameter name="dataAddrWidth" value="29" />
+  <parameter name="dataAddrWidth" value="25" />
   <parameter name="tightlyCoupledDataMaster0AddrWidth" value="1" />
   <parameter name="tightlyCoupledDataMaster1AddrWidth" value="1" />
   <parameter name="tightlyCoupledDataMaster2AddrWidth" value="1" />
@@ -972,7 +956,7 @@
   <parameter name="tightlyCoupledInstructionMaster2AddrWidth" value="1" />
   <parameter name="tightlyCoupledInstructionMaster3AddrWidth" value="1" />
   <parameter name="instSlaveMapParam"><![CDATA[<address-map><slave name='sdram_0.s1' start='0x800000' end='0x1000000' /><slave name='cfi_flash_0.uas' start='0x1400000' end='0x1800000' /><slave name='epcs_controller.epcs_control_port' start='0x1A81000' end='0x1A81800' /><slave name='cpu_0.jtag_debug_module' start='0x1A81800' end='0x1A82000' /><slave name='sysid_qsys_0.control_slave' start='0x1A820F0' end='0x1A820F8' /></address-map>]]></parameter>
-  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='sdram_0.s1' start='0x800000' end='0x1000000' /><slave name='cfi_flash_0.uas' start='0x1400000' end='0x1800000' /><slave name='VGA_0.avalon_slave_0' start='0x1800000' end='0x1A00000' /><slave name='sram_0.avalon_slave_0' start='0x1A00000' end='0x1A80000' /><slave name='epcs_controller.epcs_control_port' start='0x1A81000' end='0x1A81800' /><slave name='cpu_0.jtag_debug_module' start='0x1A81800' end='0x1A82000' /><slave name='timer_1.s1' start='0x1A82000' end='0x1A82020' /><slave name='timer_0.s1' start='0x1A82020' end='0x1A82040' /><slave name='uart_0.s1' start='0x1A82040' end='0x1A82060' /><slave name='SD_CLK.s1' start='0x1A82070' end='0x1A82080' /><slave name='SD_CMD.s1' start='0x1A82080' end='0x1A82090' /><slave name='SD_DAT.s1' start='0x1A82090' end='0x1A820A0' /><slave name='switch_pio.s1' start='0x1A820A0' end='0x1A820B0' /><slave name='button_pio.s1' start='0x1A820B0' end='0x1A820C0' /><slave name='led_green.s1' start='0x1A820C0' end='0x1A820D0' /><slave name='led_red.s1' start='0x1A820D0' end='0x1A820E0' /><slave name='DM9000A.avalon_slave_0' start='0x1A820E8' end='0x1A820F0' /><slave name='sysid_qsys_0.control_slave' start='0x1A820F0' end='0x1A820F8' /><slave name='ISP1362.dc' start='0x1A820F8' end='0x1A82100' /><slave name='ISP1362.hc' start='0x1A82100' end='0x1A82108' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x1A82108' end='0x1A82110' /><slave name='lcd_controller_0.avalon_slave_0' start='0x1A82110' end='0x1A82114' /><slave name='SEG7_Display.avalon_slave_0' start='0x1A82114' end='0x1A82118' /><slave name='Audio_0.avalon_slave_0' start='0x1A82118' end='0x1A8211C' /><slave name='avalon_mm_0.s0' start='0x10000000' end='0x10000010' /></address-map>]]></parameter>
+  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='avalon_mm_0.avalon' start='0x0' end='0x200' /><slave name='sdram_0.s1' start='0x800000' end='0x1000000' /><slave name='cfi_flash_0.uas' start='0x1400000' end='0x1800000' /><slave name='VGA_0.avalon_slave_0' start='0x1800000' end='0x1A00000' /><slave name='sram_0.avalon_slave_0' start='0x1A00000' end='0x1A80000' /><slave name='epcs_controller.epcs_control_port' start='0x1A81000' end='0x1A81800' /><slave name='cpu_0.jtag_debug_module' start='0x1A81800' end='0x1A82000' /><slave name='timer_1.s1' start='0x1A82000' end='0x1A82020' /><slave name='timer_0.s1' start='0x1A82020' end='0x1A82040' /><slave name='uart_0.s1' start='0x1A82040' end='0x1A82060' /><slave name='SD_CLK.s1' start='0x1A82070' end='0x1A82080' /><slave name='SD_CMD.s1' start='0x1A82080' end='0x1A82090' /><slave name='SD_DAT.s1' start='0x1A82090' end='0x1A820A0' /><slave name='switch_pio.s1' start='0x1A820A0' end='0x1A820B0' /><slave name='button_pio.s1' start='0x1A820B0' end='0x1A820C0' /><slave name='led_green.s1' start='0x1A820C0' end='0x1A820D0' /><slave name='led_red.s1' start='0x1A820D0' end='0x1A820E0' /><slave name='DM9000A.avalon_slave_0' start='0x1A820E8' end='0x1A820F0' /><slave name='sysid_qsys_0.control_slave' start='0x1A820F0' end='0x1A820F8' /><slave name='ISP1362.dc' start='0x1A820F8' end='0x1A82100' /><slave name='ISP1362.hc' start='0x1A82100' end='0x1A82108' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x1A82108' end='0x1A82110' /><slave name='lcd_controller_0.avalon_slave_0' start='0x1A82110' end='0x1A82114' /><slave name='SEG7_Display.avalon_slave_0' start='0x1A82114' end='0x1A82118' /><slave name='Audio_0.avalon_slave_0' start='0x1A82118' end='0x1A8211C' /></address-map>]]></parameter>
   <parameter name="clockFrequency" value="50000000" />
   <parameter name="deviceFamilyName" value="Cyclone II" />
   <parameter name="internalIrqMaskSystemInfo" value="511" />
@@ -1735,19 +1719,19 @@
    start="clk_50.clk"
    end="avalon_mm_0.clock" />
  <connection
-   kind="avalon"
-   version="13.0"
-   start="cpu_0.data_master"
-   end="avalon_mm_0.s0">
-  <parameter name="arbitrationPriority" value="1" />
-  <parameter name="baseAddress" value="0x10000000" />
-  <parameter name="defaultConnection" value="false" />
- </connection>
- <connection
    kind="reset"
    version="13.0"
    start="clk_50.clk_reset"
    end="avalon_mm_0.reset" />
+ <connection
+   kind="avalon"
+   version="13.0"
+   start="cpu_0.data_master"
+   end="avalon_mm_0.avalon">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
  <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="0" />
 </system>
